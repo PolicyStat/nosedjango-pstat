@@ -31,11 +31,10 @@ class RunTests(Command):
 setup(
     name='NoseDjangoPstat',
     version='1.0.0',
-    author='Jason Ward',
-    author_email = 'jason.ward@policystat.com',
+    author='PolicyStat',
     description = 'A simple nose plugin for our test setup',
     install_requires='nose>=0.11',
-    url = "https://github.com/jlward/nosedjango-pstat",
+    url = "https://github.com/PolicyStat/nosedjango-pstat",
     license = 'GNU LGPL',
     packages = find_packages(),
     zip_safe = False,
@@ -44,6 +43,7 @@ setup(
     entry_points = {
         'nose.plugins': [
             'pstat_plugin = pstat_plugin:PstatPlugin',
+            'selenium_old_plugin = selenium_old_plugin:SeleniumOldPlugin',
             ]
         }
     )
