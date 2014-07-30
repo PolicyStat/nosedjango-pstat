@@ -76,11 +76,8 @@ class SeleniumOldPlugin(Plugin):
         if self._driver:
             return self._driver
 
-        if self._driver_type == 'firefox':
-            self._driver = FirefoxWebDriver()
-        elif self._driver_type == 'chrome':
-            self._driver = ChromeDriver()
-        else:
+        # If different remote server address was passed, prefer that
+        if self._remote_server_address != 'localhost':
             timeout = 60
             step = 1
             current = 0
@@ -100,6 +97,11 @@ class SeleniumOldPlugin(Plugin):
                     break
             if current >= timeout:
                 raise urllib2.URLError('timeout')
+
+        elif self._driver_type == 'firefox':
+            self._driver = FirefoxWebDriver()
+        elif self._driver_type == 'chrome':
+            self._driver = ChromeDriver()
 
         monkey_patch_methods(self._driver)
         return self._driver
