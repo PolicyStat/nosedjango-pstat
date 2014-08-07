@@ -117,7 +117,10 @@ class SeleniumOldPlugin(Plugin):
             print '-' * 80
         driver = self.get_driver()
         if driver:
-            driver.quit()
+            try:
+                driver.quit()
+            except Exception:
+                pass
 
         if self.xvfb_process:
             os.kill(self.xvfb_process.pid, 9)
