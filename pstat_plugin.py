@@ -20,7 +20,7 @@ class PstatPlugin(Plugin):
         token = self.get_unique_token()
         for key, value in switched_settings.items():
             setattr(settings, key, value % {'token': token})
-        settings.CACHE_BACKEND = 'locmem://'
+        settings.CACHES['default']['BACKEND'] = 'django.core.cache.backends.locmem.LocMemCache'  # noqa
         settings.DISABLE_QUERYSET_CACHE = True
 
     def beforeFixtureLoad(self, settings, test):
