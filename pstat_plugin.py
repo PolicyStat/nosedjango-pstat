@@ -1,10 +1,8 @@
-import string
-import math
-import random
 import logging
 import os.path
 
 from nosedjango.plugins.base_plugin import Plugin
+
 
 class PstatPlugin(Plugin):
     name = 'pstat'
@@ -40,22 +38,21 @@ class PstatPlugin(Plugin):
 
     def change_storage_settings(self, settings):
         """
-        Update all of the file storage paths to use our test directory and to be
-        served from the proper URL.
+        Update all of the file storage paths to use our test directory and to
+        be served from the proper URL.
         """
         from django.core.files.storage import default_storage
 
         from pstat.printing.conf import settings as print_settings
         from pstat.document_backup.conf import settings as backup_settings
         from django.core.files.storage import FileSystemStorage
-        from django.core.files.storage import default_storage
 
         # Can't use the normal switched_settings dict because these settings
         # live outside of the django default settings
         token = self.get_unique_token()
         if print_settings.PDF_STORAGE_BACKEND is FileSystemStorage:
-            # Update the storage settings to use absolute paths or urls relative
-            # to the current media settings
+            # Update the storage settings to use absolute paths or urls
+            # relative to the current media settings
             storage_dir = 'pdf_cache/'
             storage_dir = os.path.abspath(
                 os.path.join(default_storage.location, storage_dir))
@@ -63,7 +60,8 @@ class PstatPlugin(Plugin):
         else:
             # Boto and other non-filesystem don't need absolute paths and urls
             # They do need a unique subdirectory path though, because the
-            # NoseDjango FileStoragePlugin can't reliably empty a directory on S3
+            # NoseDjango FileStoragePlugin can't reliably empty a directory on
+            # S3
             storage_dir = 'pdf_cache%s/' % token
             print_settings.PDF_STORAGE_DIR = storage_dir
 
@@ -75,8 +73,7 @@ class PstatPlugin(Plugin):
         else:
             # Boto and other non-filesystem don't need absolute paths and urls
             # They do need a unique subdirectory path though, because the
-            # NoseDjango FileStoragePlugin can't reliably empty a directory on S3
+            # NoseDjango FileStoragePlugin can't reliably empty a directory on
+            # S3
             storage_dir = 'document_backup%s/' % token
             backup_settings.STORAGE_DIR = storage_dir
-
-
